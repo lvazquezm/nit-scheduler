@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         nit-scheduler-script
-// @version      1.12
+// @version      1.13
 // @description  Script to support NIT System
 // @author       @luisvm
 // @match        https://d2dxlry74b9jjb.cloudfront.net/
@@ -569,7 +569,7 @@
             businessHours: getBusinessHours(),
             nowIndicator: true,
             hiddenDays: getWeekend(),
-            initialView: 'timeGridWeek',
+            initialView: 'dayGridMonth',
             navLinks: true, // can click day/week names to navigate views
             // editable: true,
             scrollTime: '09:00:00',
@@ -779,7 +779,11 @@
 
                 let aliasAux = e.title.split("|");
                 interview.alias = aliasAux[0].trim();
-                interview.level = parseInt(aliasAux[1].trim());
+                if (typeof aliasAux[1] === 'undefined') {
+                    interview.level = "1";
+                }else{
+                    interview.level = parseInt(aliasAux[1].trim());
+                }
 
                 let dateAux = e.start.toString().split(" ");
                 interview.start = dateAux[4];
@@ -941,6 +945,7 @@
 
     function createShadowTable(){
         let shadowTable = document.querySelector(".shadows");
+        shadowTable.innerHTML = '';
         let data = Object.keys(shadows_date_time[0]);
         let thead = shadowTable.createTHead();
         let row = thead.insertRow();
@@ -980,6 +985,7 @@
 
     function createShadowTablePartial(){
         let shadowTable = document.querySelector(".shadows-partial");
+        shadowTable.innerHTML = '';
         let data = Object.keys(shadows_date_partial[0]);
         let thead = shadowTable.createTHead();
         let row = thead.insertRow();
@@ -1019,6 +1025,7 @@
 
     function createShadowTableDate(){
         let shadowTable = document.querySelector(".shadows-date");
+        shadowTable.innerHTML = '';
         let data = Object.keys(shadows_date[0]);
         let thead = shadowTable.createTHead();
         let row = thead.insertRow();
@@ -1058,6 +1065,7 @@
 
     function createNoShadowTable(){
         let shadowTable = document.querySelector(".no-shadows");
+        shadowTable.innerHTML = '';
         let data = Object.keys(report[0]);
         let thead = shadowTable.createTHead();
         let row = thead.insertRow();
